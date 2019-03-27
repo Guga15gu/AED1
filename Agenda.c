@@ -5,21 +5,47 @@ struct pessoa{
 
     char nome[20];
     int idade;
-    int telefone;
+    char telefone[20];
 
-};
+} pessoa;
+
 void realocar(int *pBuffer, int *i, int *s){
-
+	++*s;
     pBuffer = realloc( pBuffer, *i * sizeof(int) + *s * sizeof(struct pessoa));
 
     i = pBuffer;
     s = i + 1;
+    
 }
 
+void adicionar(int *pBuffer, int *i, int *s){
 
+    struct pessoa *pessoa1;
+ 
+    realocar(pBuffer, i, s);
+
+    i = pBuffer;
+    s = i + 1;
+    pessoa1 = s + 1;
+
+    printf("Digite o nome desejado: \n");
+    scanf("%s", pessoa1->nome);
+    	
+    printf("Digite a idade de %s: \n", pessoa1->nome);
+    scanf("%d", &pessoa1->idade);
+    
+    printf("Digite o número de telefone de %s: \n", pessoa1->nome);
+    scanf("%s", pessoa1->telefone);
+}
+
+void listar(int *pBuffer, int *i, int *s){
+	
+	//for(){}
+  
+}
 
 int main()
-{ the master branch
+{
   void *pBuffer;
   int *i, *s;
 
@@ -38,33 +64,36 @@ int main()
   printf("Você deseja: \n 1: Adicionar uma pessoa.\n 2: Excluir uma pessoa.\n 3: Buscar uma pessoa.\n 4: Listar.\n 5: sair\n ");
   scanf("%d", menu);
 
+  while(*menu != 5){
+	  
+	switch (*menu){
+	
+		case 1:
+	
+			adicionar(pBuffer, i, s);
 
-  switch (*menu){
+			break;
 
-    case 1:
+		case 2:
+		
+			//apagar(pBuffer, i, s);
+		
+			break;
 
-        printf("1 opção");
+		case 3:
 
-        break;
+			break;
 
-    case 2:
+		case 4:
+			
+			listar(pBuffer, i, s);
+			break;
+		
 
-        break;
-
-    case 3:
-
-        break;
-
-    case 4:
-
-        break;
-
-    case 5:
-
-        break;
-
-
-  }
+	}
+	printf("Você deseja: \n 1: Adicionar uma pessoa.\n 2: Excluir uma pessoa.\n 3: Buscar uma pessoa.\n 4: Listar.\n 5: sair\n ");
+    scanf("%d", menu);
+   }
 
     return 0;
 }
