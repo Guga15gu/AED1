@@ -8,33 +8,30 @@ struct pessoa{
     int telefone;
 
 };
-void realocar(int *pBuffer, int *i, int *c, int *s){
+void realocar(int *pBuffer, int *i, int *s){
 
-    pBuffer = realloc( pBuffer, *i * sizeof(int) + *c * sizeof(char) + *s * sizeof(struct pessoa));
+    pBuffer = realloc( pBuffer, *i * sizeof(int) + *s * sizeof(struct pessoa));
 
     i = pBuffer;
-    c = i + 1;
-    s = c + 1;
+    s = i + 1;
 }
 
 
 
 int main()
-{
+{ the master branch
   void *pBuffer;
-  int *i, *c, * s;
+  int *i, *s;
 
   pBuffer = malloc(sizeof(3 * sizeof(int)));
   i = pBuffer;
-  c = i + 1;
-  s = c + 1;
+  s = i + 1;
   *i = 3;
-  *c = 0;
   *s = 0;
 
   int *menu;
   ++*i;
-  realocar(pBuffer, i, c, s);
+  realocar(pBuffer, i, s);
 
   menu = pBuffer + ((*i - 1) * sizeof(int));
 
