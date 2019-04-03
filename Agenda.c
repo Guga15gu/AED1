@@ -9,75 +9,89 @@ struct pessoa{
 
 } pessoa;
 
-void realocar(int *pBuffer, int *i, int *s){
-	++*s;
+void *pBuffer;
+int *i, *s, *menu, *count;
+
+void realocar(void){
+
     pBuffer = realloc( pBuffer, *i * sizeof(int) + *s * sizeof(struct pessoa));
 
     i = pBuffer;
     s = i + 1;
-    
+
 }
 
-void adicionar(int *pBuffer, int *i, int *s){
+void adicionar(void){
 
     struct pessoa *pessoa1;
- 
-    realocar(pBuffer, i, s);
+    ++*s;
+    realocar();
 
     i = pBuffer;
     s = i + 1;
-    pessoa1 = s + 1;
+    pessoa1 = ((*i + 1) * sizeof(int));
 
     printf("Digite o nome desejado: \n");
     scanf("%s", pessoa1->nome);
-    	
+
     printf("Digite a idade de %s: \n", pessoa1->nome);
     scanf("%d", &pessoa1->idade);
-    
+
     printf("Digite o número de telefone de %s: \n", pessoa1->nome);
     scanf("%s", pessoa1->telefone);
 }
 
-void listar(int *pBuffer, int *i, int *s){
-	
-	//for(){}
-  
+void listar(void){
+
+    ++*i;
+    realocar;
+	count = pBuffer + (*i + 1)* sizeof(int);
+
+    for(; *count < s){
+
+
+
+
+
+
+
+    }
+
+
+
 }
 
 int main()
 {
-  void *pBuffer;
-  int *i, *s;
 
-  pBuffer = malloc(sizeof(3 * sizeof(int)));
+
+  pBuffer = malloc(sizeof(4 * sizeof(int)));
   i = pBuffer;
   s = i + 1;
-  *i = 3;
+  *i = 4;
   *s = 0;
 
-  int *menu;
-  ++*i;
-  realocar(pBuffer, i, s);
+  realocar();
 
-  menu = pBuffer + ((*i - 1) * sizeof(int));
+  menu = s + 1;
 
   printf("Você deseja: \n 1: Adicionar uma pessoa.\n 2: Excluir uma pessoa.\n 3: Buscar uma pessoa.\n 4: Listar.\n 5: sair\n ");
   scanf("%d", menu);
 
   while(*menu != 5){
-	  
+
 	switch (*menu){
-	
+
 		case 1:
-	
-			adicionar(pBuffer, i, s);
+
+			adicionar();
 
 			break;
 
 		case 2:
-		
-			//apagar(pBuffer, i, s);
-		
+
+			//apagar();
+
 			break;
 
 		case 3:
@@ -85,15 +99,17 @@ int main()
 			break;
 
 		case 4:
-			
-			listar(pBuffer, i, s);
+
+			listar();
 			break;
-		
+
 
 	}
+	menu = s + 1;
 	printf("Você deseja: \n 1: Adicionar uma pessoa.\n 2: Excluir uma pessoa.\n 3: Buscar uma pessoa.\n 4: Listar.\n 5: sair\n ");
     scanf("%d", menu);
    }
 
     return 0;
 }
+
