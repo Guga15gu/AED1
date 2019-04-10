@@ -14,7 +14,12 @@ struct pessoa{
 
 void realocar(void){
 
-    pBuffer = realloc( pBuffer, *i * sizeof(int) + *s * sizeof(struct pessoa));
+    pBuffer = (void*) realloc( pBuffer, *i * sizeof(int) + *s * sizeof(struct pessoa));
+
+    if(pBuffer==NULL){
+        printf("Erro na alocação.\n\n");
+        exit(1);
+    }
 
     i = pBuffer;
     s = i + 1;
@@ -82,12 +87,18 @@ int main()
   int *menu;
 
   pBuffer = malloc(sizeof(4 * sizeof(int)));
+
+  if(pBuffer==NULL){
+      printf("Erro na alocação.\n\n");
+      exit(1);
+  }
+
   i = pBuffer;
   s = i + 1;
   *i = 4;
   *s = 0;
 
-  menu = pBuffer + 2 * sizeof(int);
+  menu = (void*) pBuffer + 2 * sizeof(int);
 
   printf("\nVocê deseja: \n 1: Adicionar uma pessoa.\n 2: Excluir uma pessoa.\n 3: Buscar uma pessoa.\n 4: Listar.\n 5: sair\n ");
   scanf("%d", menu);
@@ -120,7 +131,7 @@ int main()
 
 	}
 	printf("Você deseja: \n 1: Adicionar uma pessoa.\n 2: Excluir uma pessoa.\n 3: Buscar uma pessoa.\n 4: Listar.\n 5: sair\n ");
-	menu = pBuffer +  2 * sizeof(int);
+	menu = (void*) pBuffer +  2 * sizeof(int);
     scanf("%d", menu);
    }
 
