@@ -42,7 +42,7 @@ void adicionar(void){
 
     i = pBuffer;
     s = i + 1;
-    pessoa1 =  pBuffer + (*i)* sizeof(int) + sizeof(struct pessoa) * (*s-1);
+    pessoa1 =  (void *)pBuffer + (*i)* sizeof(int) + sizeof(struct pessoa) * (*s-1);
 
     printf("Digite o nome desejado: \n");
     scanf("%s", pessoa1->nome);
@@ -60,17 +60,17 @@ void adicionar(void){
 void listar(void){
 
 	int* count;
-	count = pBuffer + sizeof(int) * 3 ;
+	count = (void*)pBuffer + sizeof(int) * 3 ;
 
 	struct pessoa * campo;
-	campo = pBuffer + sizeof(int) * *i;
+	campo = (void *)pBuffer + sizeof(int) * *i;
 
 	for(*count = 0; *count< *s; ++*count){
 		printf("\n");
 		printf( "Nome: %s\n", campo->nome );
 		printf("Idade: %d\n", campo->idade );
 		printf("Telefone: %d\n\n\n", campo->telefone );
-		campo = campo + sizeof(struct pessoa);
+		campo = (void *)campo + sizeof(struct pessoa);
 
 
 	}
