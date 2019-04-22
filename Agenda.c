@@ -190,6 +190,45 @@ void listar(void){
     printf("\n");
 }
 
+void insertionsort(void){
+	
+    ++s;
+    realocar();
+	
+	int* count;
+	count = (void*)pBuffer + sizeof(int) * 3 ;
+    
+    int *count2;
+    count2 = (void*)pBuffer + sizeof(int) * 4 ;
+    
+	struct pessoa * buffer;
+	buffer = (void *)pBuffer + (*i)* sizeof(int) + sizeof(struct pessoa) * (*s-1);
+	struct pessoa * campo;
+	campo = (void *)pBuffer + sizeof(int) * *i;
+	
+	for(*count2 = 1; *count2 < *s; ++ *count2){
+		
+		*count = *count2 - 1;
+		
+		//buffer->nome = campo[*count].nome;
+		buffer->idade = campo[*count].idade;
+		buffer->telefone= campo[*count].telefone;
+		
+		while(*count>=0 && buffer->telefone < campo[*count].telefone){
+			
+			//campo[*count + 1].nome = campo[*count].nome;
+			campo[*count + 1].idade = campo[*count].idade;
+			campo[*count + 1].telefone= campo[*count].telefone;
+			--*count;
+		}
+		
+		campo[*count + 1] = *buffer;
+		
+	}
+	--s;
+	realocar();
+}
+
 int main()
 {
   int *menu;
@@ -208,10 +247,28 @@ int main()
 
   menu = (void*) pBuffer + 2 * sizeof(int);
 
-  printf("\nVocê deseja: \n 1: Adicionar uma pessoa.\n 2: Excluir uma pessoa.\n 3: Buscar uma pessoa.\n 4: Listar.\n 5: sair\n ");
+  	printf("Você deseja: \n 1: Adicionar uma pessoa.\n 2: Excluir uma pessoa.\n 3: Buscar uma pessoa.\n 4: Listar.\n 5: Insertion Sort \n 6: sair\n ");
   scanf("%d", menu);
 
-  while(*menu != 5){
+	for(int a=0; a<10; ++a){
+		int c = rand() %100;
+		struct pessoa *pessoa1;
+		++*s;
+		realocar();
+
+		i = pBuffer;
+		s = i + 1;
+		pessoa1 =  (void *)pBuffer + (*i)* sizeof(int) + sizeof(struct pessoa) * (*s-1);
+
+		pessoa1->nome[0] = 't';
+
+		pessoa1->idade= c;
+		
+		pessoa1->telefone= c;
+		
+	}
+	
+  while(*menu != 6){
 
 	switch (*menu){
 
@@ -234,16 +291,21 @@ int main()
 
 			listar();
 			break;
+			
+		case 5:
+
+			insertionsort();
+			break;
 
 
 	}
 
-	printf("Você deseja: \n 1: Adicionar uma pessoa.\n 2: Excluir uma pessoa.\n 3: Buscar uma pessoa.\n 4: Listar.\n 5: sair\n ");
+	printf("Você deseja: \n 1: Adicionar uma pessoa.\n 2: Excluir uma pessoa.\n 3: Buscar uma pessoa.\n 4: Listar.\n 5: Insertion Sort \n 6: sair\n ");
 	menu = (void*) pBuffer +  2 * sizeof(int);
     scanf("%d", menu);
    }
 
-    if(*menu == 5){
+    if(*menu == 6){
         free(pBuffer);
         printf("\nFree executado.\n");
     }
