@@ -192,9 +192,9 @@ void listar(void){
 
 void insertionsort(void){
 
-    ++s;
+    ++*s;
     realocar();
-    --s;
+    --*s;
 
 	int* count;
 	count = (void*)pBuffer + sizeof(int) * 3 ;
@@ -207,6 +207,7 @@ void insertionsort(void){
 	struct pessoa * campo;
 	campo = (void *)pBuffer + sizeof(int) * *i;
 
+
 	for(*count = 1; *count < *s; ++ *count){
 
 		*count2 = *count - 1;
@@ -215,12 +216,13 @@ void insertionsort(void){
 		buffer->idade = campo[*count].idade;
 		buffer->telefone= campo[*count].telefone;
 
-		while(*count2>=0 && buffer->telefone < campo[*count2].telefone){
+		while( (*count2>=0) && (buffer->telefone < campo[*count2].telefone) ){
 
             strcpy(campo[*count2+1].nome, campo[*count2].nome );
 			campo[*count2+1].idade = campo[*count2].idade;
 			campo[*count2+1].telefone= campo[*count2].telefone;
 			--*count2;
+
 		}
         strcpy(campo[*count2+1].nome, buffer->nome );
 		campo[*count2+1].idade = buffer->idade;
@@ -231,6 +233,53 @@ void insertionsort(void){
 	realocar();
 }
 
+void selectionsort(void){
+	
+	++*s;
+    realocar();
+    --*s;
+    
+	int* count;
+	count = (void*)pBuffer + sizeof(int) * 3 ;
+
+    int *count2;
+    count2 = (void*)pBuffer + sizeof(int) * 4 ;
+    
+    int *min;
+    min = (void*)pBuffer + sizeof(int) * 5 ;
+
+	struct pessoa * buffer;
+	buffer = (void *)pBuffer + (*i)* sizeof(int) + sizeof(struct pessoa) * (*s);
+	struct pessoa * campo;
+	campo = (void *)pBuffer + sizeof(int) * *i;
+
+
+	for(*count = 0; *count < *s-1; ++ *count){
+		*min = *count;
+		
+		for(*count2 = *count + 1; *count2 < *s; ++*count2){
+			
+			if(campo[*count2].telefone < campo[*min].telefone){			
+				*min = *count2;				
+			}	
+		}
+		if(	campo[*min].telefone != campo[*count].telefone ){
+			
+			strcpy(buffer->nome, campo[*count].nome );
+			buffer->idade = campo[*count].idade;
+			buffer->telefone= campo[*count].telefone;
+		
+			strcpy(campo[*count].nome, campo[*min].nome );
+			campo[*count].idade = campo[*min].idade;
+			campo[*count].telefone= campo[*min].telefone;
+		
+			strcpy(campo[*min].nome, buffer->nome );
+			campo[*min].idade = buffer->idade;	
+			campo[*min].telefone= buffer->telefone;
+		}	
+	}
+	realocar();
+}
 int main()
 {
   int *menu;
@@ -249,7 +298,7 @@ int main()
 
   menu = (void*) pBuffer + 2 * sizeof(int);
 
-  	printf("Você deseja: \n 1: Adicionar uma pessoa.\n 2: Excluir uma pessoa.\n 3: Buscar uma pessoa.\n 4: Listar.\n 5: Insertion Sort \n 6: sair\n ");
+  printf("Você deseja: \n 1: Adicionar uma pessoa.\n 2: Excluir uma pessoa.\n 3: Buscar uma pessoa.\n 4: Listar.\n 5: Insertion Sort \n 6: Selection Sort \n 7: sair\n ");
   scanf("%d", menu);
 
     int t=0;
@@ -273,7 +322,7 @@ int main()
 		pessoa1->telefone= c;
 	}
 
-  while(*menu != 6){
+  while(*menu != 7){
 
 	switch (*menu){
 
@@ -301,18 +350,23 @@ int main()
 
 			insertionsort();
 			break;
-
+		
+		case 6:
+		
+			selectionsort();
+			break;
 
 	}
 
-	printf("Você deseja: \n 1: Adicionar uma pessoa.\n 2: Excluir uma pessoa.\n 3: Buscar uma pessoa.\n 4: Listar.\n 5: Insertion Sort \n 6: sair\n ");
+	printf("Você deseja: \n 1: Adicionar uma pessoa.\n 2: Excluir uma pessoa.\n 3: Buscar uma pessoa.\n 4: Listar.\n 5: Insertion Sort \n 6: Selection Sort \n 7: sair\n ");
 	menu = (void*) pBuffer +  2 * sizeof(int);
     scanf("%d", menu);
    }
 
-    if(*menu == 6){
+    if(*menu == 7){
         free(pBuffer);
         printf("\nFree executado.\n");
     }
     return 0;
 }
+
