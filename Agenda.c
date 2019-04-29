@@ -80,13 +80,13 @@ void* buscar(){
             itemc = item;       //precisei fazer essas gambiarras pro compilador resolver cumprir sua função**
 
             printf("Digite o nome a ser buscado: \n");
-            scanf("%s", itemc); 
+            scanf("%s", itemc);
     }
     else if(*a==2){
             itemi = item;       //precisei fazer essas gambiarras pro compilador resolver cumprir sua função***
 
             printf("Digite a idade a ser buscada: \n");
-            scanf("%d", itemi); 
+            scanf("%d", itemi);
     }
     else {
             itemi = item;       //precisei fazer essas gambiarras pro compilador resolver cumprir sua função****
@@ -109,9 +109,9 @@ void* buscar(){
         }
 
         else if(*a==2){
-            
+
             if(*itemi == campo->idade ){
-                
+
                 printf("\nNome: %s\n", campo->nome);
 		        printf("Idade: %d\n", campo->idade );
 	        	printf("Telefone: %d\n\n", campo->telefone );
@@ -119,7 +119,7 @@ void* buscar(){
             }
         }
         else {
-            
+
             if(*itemi == campo->telefone){
 
                 printf("\nNome: %s\n", campo->nome);
@@ -128,12 +128,12 @@ void* buscar(){
                 return *count;
             }
         }
-        
+
 		campo = (void *)campo + sizeof(struct pessoa);
-        
+
 	}
     printf("\nContato inexistente.\n\n");
-	
+
     return -1;
 }
 
@@ -145,7 +145,7 @@ void apagar(void){
 
     *count = buscar();
     campo = (void *)pBuffer + sizeof(int) * *i + sizeof(struct pessoa) * *count;
-    
+
     if(*count == -1){
         printf("\nContato inexistente.\n\n");
     }
@@ -161,14 +161,14 @@ void apagar(void){
             strcpy(campo->nome, aux->nome);
             campo->idade = aux->idade;
             campo->telefone = aux->telefone;
-            
+
 		    campo = (void *)campo + sizeof(struct pessoa);
             aux = (void *)aux + sizeof(struct pessoa);
 	    }
         realocar();
         printf("\n Sucesso na exclusão;\n");
     }
-    
+
 }
 
 void listar(void){
@@ -191,41 +191,43 @@ void listar(void){
 }
 
 void insertionsort(void){
-	
+
     ++s;
     realocar();
-	
+    --s;
+
 	int* count;
 	count = (void*)pBuffer + sizeof(int) * 3 ;
-    
+
     int *count2;
     count2 = (void*)pBuffer + sizeof(int) * 4 ;
-    
+
 	struct pessoa * buffer;
-	buffer = (void *)pBuffer + (*i)* sizeof(int) + sizeof(struct pessoa) * (*s-1);
+	buffer = (void *)pBuffer + (*i)* sizeof(int) + sizeof(struct pessoa) * (*s);
 	struct pessoa * campo;
 	campo = (void *)pBuffer + sizeof(int) * *i;
-	
-	for(*count2 = 1; *count2 < *s; ++ *count2){
-		
-		*count = *count2 - 1;
-		
-		//buffer->nome = campo[*count].nome;
+
+	for(*count = 1; *count < *s; ++ *count){
+
+		*count2 = *count - 1;
+
+		strcpy(buffer->nome, campo[*count].nome );
 		buffer->idade = campo[*count].idade;
 		buffer->telefone= campo[*count].telefone;
-		
-		while(*count>=0 && buffer->telefone < campo[*count].telefone){
-			
-			//campo[*count + 1].nome = campo[*count].nome;
-			campo[*count + 1].idade = campo[*count].idade;
-			campo[*count + 1].telefone= campo[*count].telefone;
-			--*count;
+
+		while(*count2>=0 && buffer->telefone < campo[*count2].telefone){
+
+            strcpy(campo[*count2+1].nome, campo[*count2].nome );
+			campo[*count2+1].idade = campo[*count2].idade;
+			campo[*count2+1].telefone= campo[*count2].telefone;
+			--*count2;
 		}
-		
-		campo[*count + 1] = *buffer;
-		
+        strcpy(campo[*count2+1].nome, buffer->nome );
+		campo[*count2+1].idade = buffer->idade;
+		campo[*count2+1].telefone = buffer->telefone;
+
 	}
-	--s;
+
 	realocar();
 }
 
@@ -250,8 +252,10 @@ int main()
   	printf("Você deseja: \n 1: Adicionar uma pessoa.\n 2: Excluir uma pessoa.\n 3: Buscar uma pessoa.\n 4: Listar.\n 5: Insertion Sort \n 6: sair\n ");
   scanf("%d", menu);
 
+    int t=0;
 	for(int a=0; a<10; ++a){
 		int c = rand() %100;
+
 		struct pessoa *pessoa1;
 		++*s;
 		realocar();
@@ -260,14 +264,15 @@ int main()
 		s = i + 1;
 		pessoa1 =  (void *)pBuffer + (*i)* sizeof(int) + sizeof(struct pessoa) * (*s-1);
 
-		pessoa1->nome[0] = 't';
+		pessoa1->nome[0] = 'a'+ t;
+        ++t;
+		pessoa1->nome[1] = '\0';
 
 		pessoa1->idade= c;
-		
+
 		pessoa1->telefone= c;
-		
 	}
-	
+
   while(*menu != 6){
 
 	switch (*menu){
@@ -291,7 +296,7 @@ int main()
 
 			listar();
 			break;
-			
+
 		case 5:
 
 			insertionsort();
