@@ -29,15 +29,6 @@ void realocar(void){
 	
 }
 
-void corrigir(void){
-
-	//	int *z = pBuffer;
-
-	//	z = z + sizeof(int) * *i;
-
-	//	memmove()
-	}
-
 void adicionar(void){
 
 	struct pessoa *pessoa1;
@@ -57,7 +48,7 @@ void adicionar(void){
 
 }
 
-void* buscar(){
+int buscar(){
 		
 	int* count;
 	count = (void*)pBuffer + sizeof(int) * 4 ;
@@ -144,11 +135,7 @@ void apagar(void){
 	*count = buscar();
 	campo = (void *)pBuffer + sizeof(int) * *i + sizeof(struct pessoa) * *count;
 
-	if(*count == -1){
-		printf("\nContato inexistente.\n\n");
-	}
-
-	else{
+	if(*count != -1){
 
 		printf("\nExcluindo contato acima...\n");
 		*s = *s - 1;
@@ -322,9 +309,8 @@ void bubblesort(void){
 }
 	
 int main(){
-	int *menu;
 
-	pBuffer = malloc(sizeof(6 * sizeof(int)));
+	pBuffer = malloc(sizeof(7 * sizeof(int)));
 
 	if(pBuffer==NULL){
 		printf("Erro na alocação.\n\n");
@@ -334,15 +320,18 @@ int main(){
 	i = pBuffer;
 	s = i + 1;
 	c = s + 1;
+	menu = c + 1;
+	
 	*i = 7;
 	*s = 0;
     *c = 0;
-
+	
 	printf("Você deseja: \n 1: Adicionar uma pessoa.\n 2: Excluir uma pessoa.\n 3: Buscar uma pessoa.\n 4: Listar.\n 5: Insertion Sort \n 6: Selection Sort \n 7: Bubble Sort \n 8: sair\n ");
 	scanf("%d", menu);
 
-	int t=0;
+	
 	for(int a=0; a<10; ++a){
+		int t=0;
 		int c = rand() %100;
 		struct pessoa *pessoa1;
 		++*s;
